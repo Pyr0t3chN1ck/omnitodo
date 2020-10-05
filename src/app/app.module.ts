@@ -18,6 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TodoEntryComponent } from './components/todo-entry/todo-entry.component';
@@ -30,6 +31,7 @@ import { reducers } from './reducers';
 import { ForecastComponent } from './components/forecast/forecast.component';
 import { InboxComponent } from './components/inbox/inbox.component';
 import { ProjectsComponent } from './components/projects/projects.component';
+import { ListComponent } from './components/list/list.component';
 
 const materialModules = [
   MatSidenavModule,
@@ -46,7 +48,8 @@ const materialModules = [
   MatNativeDateModule,
   StoreModule.forRoot(reducers),
   StoreDevtoolsModule.instrument(),
-  MatChipsModule
+  MatChipsModule,
+  MatDialogModule,
 ];
 
 @NgModule({
@@ -58,7 +61,8 @@ const materialModules = [
     ActionsComponent,
     ForecastComponent,
     InboxComponent,
-    ProjectsComponent
+    ProjectsComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,
