@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "omnitodo"
+    }
+  },
+  "defaultProject": "omnitodo",
+  "cli": {
+    "analytics": "4e8a794a-afc9-4a6b-986f-4306de30bda8"
+  }
 }
