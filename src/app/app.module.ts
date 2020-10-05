@@ -15,6 +15,9 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TodoEntryComponent } from './components/todo-entry/todo-entry.component';
 import { ActionsComponent } from './components/actions/actions.component';
@@ -31,6 +34,8 @@ const materialModules = [
   MatFormFieldModule,
   MatInputModule,
   MatSelectModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
 ];
 
 @NgModule({

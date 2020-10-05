@@ -2,7 +2,6 @@
       (ngSubmit)="submit()">
   <div class="field-container">
     <mat-form-field hintLabel="Max of 200 characters"
-                    style="width: 800px !important"
                     appearance="fill">
       <mat-label>Enter your Task</mat-label>
       <input matInput
@@ -16,7 +15,12 @@
       <mat-label>Due Date:</mat-label>
       <input matInput
              type="datetime"
+             [matDatepicker]="picker"
              formControlName="dueDate" />
+      <mat-datepicker-toggle [for]="picker">
+        <mat-icon matDatepickerToggleIcon>keyboard_down_arrow</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
   </div>
   <div class="field-container">
