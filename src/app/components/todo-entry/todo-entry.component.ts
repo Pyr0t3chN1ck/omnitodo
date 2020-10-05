@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { todoAdded } from 'src/app/actions/todo-actions';
+import { ProjectListModel } from 'src/app/models';
+import { AppState, selectProjectListModel } from 'src/app/reducers';
 
 @Component({
   selector: 'app-todo-entry',
@@ -10,7 +15,11 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 export class TodoEntryComponent implements OnInit {
 
   form: FormGroup;
-  constructor(private bottomSheetRef: MatBottomSheetRef<TodoEntryComponent>, private formBuilder: FormBuilder) { }
+  projects$: Observable<ProjectListModel[]>;
+  constructor(
+    private bottomSheetRef: MatBottomSheetRef<TodoEntryComponent>,
+    private formBuilder: FormBuilder,
+    private store: Store<AppState>) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -18,7 +27,13 @@ export class TodoEntryComponent implements OnInit {
       project: [],
       dueDate: []
     });
+
+    this.projects$ = this.store.pipe(
+      select(selectProjectListModel)
+    );
   }
+
+  get name(): AbstractControl { return this.form.get('name'); }
 
   cancel(): void {
     this.bottomSheetRef.dismiss();
@@ -26,7 +41,7 @@ export class TodoEntryComponent implements OnInit {
 
   submit(): void {
     // validate data
-    // dispatch action to store, etc.
+    this.store.dispatch(todoAdded({ ...this.form.value }));
     this.bottomSheetRef.dismiss();
   }
 }

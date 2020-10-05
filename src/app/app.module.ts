@@ -17,11 +17,19 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TodoEntryComponent } from './components/todo-entry/todo-entry.component';
 import { ActionsComponent } from './components/actions/actions.component';
 import { ReactiveFormsModule } from '@angular/forms';
+
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { reducers } from './reducers';
+import { ForecastComponent } from './components/forecast/forecast.component';
+import { InboxComponent } from './components/inbox/inbox.component';
+import { ProjectsComponent } from './components/projects/projects.component';
 
 const materialModules = [
   MatSidenavModule,
@@ -36,6 +44,9 @@ const materialModules = [
   MatSelectModule,
   MatDatepickerModule,
   MatNativeDateModule,
+  StoreModule.forRoot(reducers),
+  StoreDevtoolsModule.instrument(),
+  MatChipsModule
 ];
 
 @NgModule({
@@ -44,7 +55,10 @@ const materialModules = [
     NavComponent,
     DashboardComponent,
     TodoEntryComponent,
-    ActionsComponent
+    ActionsComponent,
+    ForecastComponent,
+    InboxComponent,
+    ProjectsComponent
   ],
   imports: [
     BrowserModule,
