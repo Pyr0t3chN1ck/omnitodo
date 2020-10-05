@@ -12,9 +12,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TodoEntryComponent } from './components/todo-entry/todo-entry.component';
 import { ActionsComponent } from './components/actions/actions.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const materialModules = [
   MatSidenavModule,
@@ -24,6 +28,9 @@ const materialModules = [
   MatCardModule,
   MatButtonModule,
   MatBottomSheetModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatSelectModule,
 ];
 
 @NgModule({
@@ -38,7 +45,8 @@ const materialModules = [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ...materialModules
+    ...materialModules,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

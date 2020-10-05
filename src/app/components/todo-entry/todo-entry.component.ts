@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 @Component({
@@ -8,9 +9,15 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 })
 export class TodoEntryComponent implements OnInit {
 
-  constructor(private bottomSheetRef: MatBottomSheetRef<TodoEntryComponent>) { }
+  form: FormGroup;
+  constructor(private bottomSheetRef: MatBottomSheetRef<TodoEntryComponent>, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.maxLength(200)]],
+      project: [],
+      dueDate: []
+    });
   }
 
   cancel(): void {
