@@ -18,9 +18,16 @@ export const reducers: ActionReducerMap<AppState> = {
 
 // Selector per "branch" of the state
 const selectProjectsBranch = (state: AppState) => state.projects;
+const selectTodosBranch = (state: AppState) => state.todos;
 
 // Any "helper" selectors
 const { selectAll: selectAllProjectEntities } = fromProjects.adapter.getSelectors(selectProjectsBranch);
+const { selectAll: selectAllTodoEntities } = fromTodos.adapter.getSelectors(selectTodosBranch);
+
+const selectAllIncompleteTodoEntities = createSelector(
+  selectAllTodoEntities,
+  todos => todos.filter(t => t.completed === false)
+);
 
 // Any selectors your components need.
 
@@ -30,4 +37,9 @@ const { selectAll: selectAllProjectEntities } = fromProjects.adapter.getSelector
 export const selectProjectListModel = createSelector(
   selectAllProjectEntities,
   items => items as ProjectListModel[]
+);
+
+export const selectInboxCount = createSelector(
+  selectAllIncompleteTodoEntities,
+  (todos) => todos.filter(t => t.dueDate === null && t.project === null).length
 );
