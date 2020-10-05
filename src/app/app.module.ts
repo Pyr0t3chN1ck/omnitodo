@@ -9,20 +9,30 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { TodoEntryComponent } from './components/todo-entry/todo-entry.component';
+import { ActionsComponent } from './components/actions/actions.component';
 
 const materialModules = [
   MatSidenavModule,
   MatToolbarModule,
   MatListModule,
   MatIconModule,
+  MatCardModule,
+  MatButtonModule,
+  MatBottomSheetModule,
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
-    DashboardComponent
+    DashboardComponent,
+    TodoEntryComponent,
+    ActionsComponent
   ],
   imports: [
     BrowserModule,
