@@ -1,5 +1,5 @@
 import { ActionReducerMap, createSelector } from '@ngrx/store';
-import { ProjectListModel } from '../models';
+import { ProjectListModel, TodoListModel } from '../models';
 import * as fromProjects from './projects.reducer';
 import * as fromTodos from './todos.reducer';
 
@@ -21,7 +21,7 @@ const selectProjectsBranch = (state: AppState) => state.projects;
 const selectTodosBranch = (state: AppState) => state.todos;
 
 // Any "helper" selectors
-const { selectAll: selectAllProjectEntities } = fromProjects.adapter.getSelectors(selectProjectsBranch);
+const { selectAll: selectAllProjectEntities, selectEntities: selectProjectItems } = fromProjects.adapter.getSelectors(selectProjectsBranch);
 const { selectAll: selectAllTodoEntities } = fromTodos.adapter.getSelectors(selectTodosBranch);
 
 const selectAllIncompleteTodoEntities = createSelector(
@@ -29,7 +29,25 @@ const selectAllIncompleteTodoEntities = createSelector(
   todos => todos.filter(t => t.completed === false)
 );
 
+const selectTodoListItemsUnfiltered = createSelector(
+  selectAllIncompleteTodoEntities,
+  selectProjectItems,
+  (todos, projects) => {
+    return todos.map(todo => {
+      return {
+        ...todo,
+        project: !todo.project ? null : projects[todo.project].name,
+      } as TodoListModel;
+    });
+  }
+);
+
 // Any selectors your components need.
+
+export const selectInboxTodoList = createSelector(
+  selectTodoListItemsUnfiltered,
+  (todos) => todos.filter(t => !t.dueDate && !t.project)
+);
 
 // TODO: We need a selector for the TodoEntry component
 // that gives us a ProejctListModel[]
@@ -41,5 +59,5 @@ export const selectProjectListModel = createSelector(
 
 export const selectInboxCount = createSelector(
   selectAllIncompleteTodoEntities,
-  (todos) => todos.filter(t => t.dueDate === null && t.project === null).length
+  (todos) => todos.filter(t => !t.dueDate && !t.project).length
 );
