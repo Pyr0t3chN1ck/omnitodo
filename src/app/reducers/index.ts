@@ -1,5 +1,5 @@
 import { ActionReducerMap, createSelector } from '@ngrx/store';
-import { ProjectListModel, TodoListModel } from '../models';
+import { ProjectListModel, TodoListModel, ProjectListItemModel } from '../models';
 import * as fromProjects from './projects.reducer';
 import * as fromTodos from './todos.reducer';
 
@@ -60,4 +60,18 @@ export const selectProjectListModel = createSelector(
 export const selectInboxCount = createSelector(
   selectAllIncompleteTodoEntities,
   (todos) => todos.filter(t => !t.dueDate && !t.project).length
+);
+
+export const selectProjectListWithCount = createSelector(
+  selectAllIncompleteTodoEntities,
+  selectAllProjectEntities,
+  (todos, projects) => {
+    return projects.map(project => {
+      const numberofItemsWithThatProject = todos.filter(todo => todo.project === project.id).length;
+      return {
+        ...project,
+        numberOfProjects: numberofItemsWithThatProject
+      } as ProjectListItemModel;
+    });
+  }
 );
