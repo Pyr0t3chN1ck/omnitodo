@@ -22,14 +22,20 @@ const initialState: TodoState = {
   entities: {
     1: { id: '1', name: 'Clean Garage', completed: false },
     2: { id: '2', name: 'Rake Leaves', dueDate: '2020-10-15T19:00:26.608Z', completed: false },
-    3: { id: '3', name: 'Paint Hallawy', project: '2', completed: false },
+    3: { id: '3', name: 'Paint Hallway', project: '2', completed: false },
     4: { id: '4', name: 'Go to Grocery', completed: true },
   }
 };
 
 const reducerFunction = createReducer(
   initialState,
-  on(actions.todoAdded, (oldState, action) => adapter.addOne(action.payload, oldState))
+  on(actions.todoAdded, (oldState, action) => adapter.addOne(action.payload, oldState)),
+  on(actions.todoCompleted, (oldState, action) => adapter.updateOne({
+    id: action.payload.id,
+    changes: {
+      completed: true
+    }
+  }, oldState))
 );
 
 export function reducer(state: TodoState = initialState, action: Action) {

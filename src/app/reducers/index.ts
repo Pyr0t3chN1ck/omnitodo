@@ -1,5 +1,6 @@
 import { ActionReducerMap, createSelector } from '@ngrx/store';
-import { ProjectListModel, TodoListModel, ProjectListItemModel } from '../models';
+import { filter } from 'rxjs/operators';
+import { ProjectListModel, TodoListModel, ProjectListItemModel, PerspectiveModel } from '../models';
 import * as fromProjects from './projects.reducer';
 import * as fromTodos from './todos.reducer';
 
@@ -44,9 +45,26 @@ const selectTodoListItemsUnfiltered = createSelector(
 
 // Any selectors your components need.
 
+export const selectProjectTodoList = createSelector(
+  selectTodoListItemsUnfiltered,
+  selectProjectItems,
+  (todos, projects, props) => {
+    const pName = projects[props.id].name;
+    return {
+      perspectiveName: pName + ' Project',
+      items: todos.filter(todo => todo.project === pName)
+    } as PerspectiveModel;
+  }
+);
+
 export const selectInboxTodoList = createSelector(
   selectTodoListItemsUnfiltered,
-  (todos) => todos.filter(t => !t.dueDate && !t.project)
+  (todos) => {
+    return {
+      perspectiveName: 'Your Inbox',
+      items: todos.filter(t => !t.dueDate && !t.project)
+    } as PerspectiveModel;
+  }
 );
 
 // TODO: We need a selector for the TodoEntry component
