@@ -3,15 +3,18 @@ import { filter } from 'rxjs/operators';
 import { ProjectListModel, TodoListModel, ProjectListItemModel, PerspectiveModel } from '../models';
 import * as fromProjects from './projects.reducer';
 import * as fromTodos from './todos.reducer';
+import * as formAuth from './auth.reducer';
 
 export interface AppState {
   projects: fromProjects.ProjectState;
   todos: fromTodos.TodoState;
+  auth: formAuth.AuthState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   projects: fromProjects.reducer,
   todos: fromTodos.reducer,
+  auth: formAuth.reducer,
 };
 
 // Selectors are function that know how to efficiently
@@ -20,6 +23,7 @@ export const reducers: ActionReducerMap<AppState> = {
 // Selector per "branch" of the state
 const selectProjectsBranch = (state: AppState) => state.projects;
 const selectTodosBranch = (state: AppState) => state.todos;
+const selectAuthBranch = (state: AppState) => state.auth;
 
 // Any "helper" selectors
 const { selectAll: selectAllProjectEntities, selectEntities: selectProjectItems } = fromProjects.adapter.getSelectors(selectProjectsBranch);
@@ -92,4 +96,19 @@ export const selectProjectListWithCount = createSelector(
       } as ProjectListItemModel;
     });
   }
+);
+
+export const selectAuthIsLoggedIn = createSelector(
+  selectAuthBranch,
+  b => b.isLoggedIn
+);
+
+export const selectAuthUsername = createSelector(
+  selectAuthBranch,
+  b => b.username
+);
+
+export const selectAuthToken = createSelector(
+  selectAuthBranch,
+  b => b.token
 );

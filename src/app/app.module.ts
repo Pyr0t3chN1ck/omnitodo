@@ -34,6 +34,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { DateOrPipe } from './pipes/date-or';
 import { StringOrPipe } from './pipes/string-or';
+import { LoginComponent } from './components/login/login.component';
+import { HttpClientModule } from '@angular/common/http';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './effects/auth.effects';
+
 const materialModules = [
   MatDialogModule,
   MatSidenavModule,
@@ -63,17 +68,20 @@ const materialModules = [
     ProjectsComponent,
     ListComponent,
     DateOrPipe,
-    StringOrPipe
+    StringOrPipe,
+    LoginComponent
 
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     ...materialModules,
     ReactiveFormsModule,
     StoreModule.forRoot(reducers),
-    StoreDevtoolsModule.instrument()
+    StoreDevtoolsModule.instrument(),
+    EffectsModule.forRoot([AuthEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]
