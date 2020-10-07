@@ -35,9 +35,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DateOrPipe } from './pipes/date-or';
 import { StringOrPipe } from './pipes/string-or';
 import { LoginComponent } from './components/login/login.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './effects/auth.effects';
+import { TodoEffects } from './effects/todos.effects';
+import { AuthInterceptor } from './services/auth.interceptor';
 
 const materialModules = [
   MatDialogModule,
@@ -81,9 +83,9 @@ const materialModules = [
     ReactiveFormsModule,
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument(),
-    EffectsModule.forRoot([AuthEffects])
+    EffectsModule.forRoot([AuthEffects, TodoEffects])
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 

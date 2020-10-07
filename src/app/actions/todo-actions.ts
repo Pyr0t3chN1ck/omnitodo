@@ -8,6 +8,7 @@ export const todoCompleted = createAction(
   props<{ payload: TodoEntity }>()
 );
 
+// Command
 export const todoAdded = createAction(
   '[todos] todo added',
   ({ name, dueDate, project }: TodoCreate) => ({
@@ -19,6 +20,36 @@ export const todoAdded = createAction(
       completed: false
     } as TodoEntity
   })
+);
+
+// Success
+export const todoAddedSuccessfully = createAction(
+  '[todos] todo added successfully',
+  props<{ oldId: string, payload: TodoEntity }>()
+);
+
+// Failure
+export const todoAddedFailure = createAction(
+  '[todos] todo added failure',
+  props<{ message: string, payload: TodoEntity }>()
+);
+
+// Command
+
+export const loadTodos = createAction(
+  '[todos] load todo data'
+);
+
+// Success
+export const loadDataSucceeded = createAction(
+  '[todos] loaded data sucessfully',
+  props<{ payload: TodoEntity[] }>()
+);
+
+// Failure
+export const loadDataFailure = createAction(
+  '[todos] loading data failed',
+  props<{ message: string }>()
 );
 
 interface TodoCreate {
