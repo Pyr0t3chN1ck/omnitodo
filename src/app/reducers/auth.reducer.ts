@@ -20,7 +20,8 @@ const reducerFunction = createReducer(
     isLoggedIn: true,
     username: a.payload.username,
     token: a.payload.token
-  }))
+  })),
+  on(actions.logoutRequested, () => initialState)
 );
 
 export function reducer(state: AuthState, action: Action): AuthState {
