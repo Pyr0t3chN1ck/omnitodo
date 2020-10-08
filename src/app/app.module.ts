@@ -40,6 +40,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './effects/auth.effects';
 import { TodoEffects } from './effects/todos.effects';
 import { AuthInterceptor } from './services/auth.interceptor';
+import { ProjectEntryComponent } from './components/project-entry/project-entry.component';
+import { ProjectEffects } from './effects/project.effects';
 
 const materialModules = [
   MatDialogModule,
@@ -71,7 +73,8 @@ const materialModules = [
     ListComponent,
     DateOrPipe,
     StringOrPipe,
-    LoginComponent
+    LoginComponent,
+    ProjectEntryComponent
 
   ],
   imports: [
@@ -83,7 +86,7 @@ const materialModules = [
     ReactiveFormsModule,
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument(),
-    EffectsModule.forRoot([AuthEffects, TodoEffects])
+    EffectsModule.forRoot([AuthEffects, TodoEffects, ProjectEffects])
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
