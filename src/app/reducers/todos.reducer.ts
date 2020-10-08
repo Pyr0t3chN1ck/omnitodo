@@ -32,7 +32,19 @@ const reducerFunction = createReducer(
     changes: {
       completed: true
     }
-  }, oldState))
+  }, oldState)),
+  on(actions.todoIncompleted, (oldState, action) => adapter.updateOne({
+    id: action.payload.id,
+    changes: {
+      completed: false
+    }
+  }, oldState)),
+  on(actions.todoCompletedUpdateFailure, (oldState, action) => adapter.updateOne({
+    id: action.payload.id,
+    changes: {
+      completed: false
+    }
+  }, oldState)),
 );
 
 export function reducer(state: TodoState = initialState, action: Action) {

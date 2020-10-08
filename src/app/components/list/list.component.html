@@ -21,7 +21,11 @@
                   (click)="markComplete(item)">
             <mat-icon>radio_button_unchecked</mat-icon>
           </button>
-          <mat-icon *ngIf="item.completed">done</mat-icon>
+          <button mat-button
+                  *ngIf="item.completed"
+                  (click)="markIncomplete(item)">
+            <mat-icon>radio_button_checked</mat-icon>
+          </button>
         </td>
       </tr>
     </tbody>

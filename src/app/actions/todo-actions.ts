@@ -8,6 +8,34 @@ export const todoCompleted = createAction(
   props<{ payload: TodoEntity }>()
 );
 
+// Success
+export const todoCompletedUpdateSuccess = createAction(
+  '[todos] todo completed updated successfully'
+);
+
+// Failure
+export const todoCompletedUpdateFailure = createAction(
+  '[todos] todo completed updated failure',
+  props<{ message: string, payload: TodoEntity }>()
+);
+
+export const todoIncompleted = createAction(
+  '[todos] todo incompleted',
+  props<{ payload: TodoEntity }>()
+);
+
+// Success
+export const todoIncompletedUpdateSuccess = createAction(
+  '[todos] todo incompleted updated successfully'
+);
+
+// Failure
+export const todoIncompletedUpdateFailure = createAction(
+  '[todos] todo incompleted updated failure',
+  props<{ message: string, payload: TodoEntity }>()
+);
+
+
 // Command
 export const todoAdded = createAction(
   '[todos] todo added',

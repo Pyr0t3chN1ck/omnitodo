@@ -38,6 +38,32 @@ export class TodoEffects {
     ), { dispatch: true }
   );
 
+  completeTodo$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(todoActions.todoCompleted),
+      map(action => action.payload),
+      switchMap(todo => this.client.post<TodoEntity>(this.apiUrl + 'todos/completed', makeATodoUpdate(todo))
+        .pipe(
+          map(response => todoActions.todoCompletedUpdateSuccess()),
+          catchError(err => of(todoActions.todoCompletedUpdateFailure({ message: 'Blammo!', payload: todo })))
+        )
+      )
+    )
+  );
+
+  incompleteTodo$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(todoActions.todoIncompleted),
+      map(action => action.payload),
+      switchMap(todo => this.client.post<TodoEntity>(this.apiUrl + 'todos/incomplete', makeATodoUpdate(todo))
+        .pipe(
+          map(response => todoActions.todoIncompletedUpdateSuccess()),
+          catchError(err => of(todoActions.todoIncompletedUpdateFailure({ message: 'Blammo!', payload: todo })))
+        )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private client: HttpClient
@@ -51,8 +77,26 @@ interface TodoCreate {
   completed: boolean;
 }
 
+interface TodoUpdate {
+  id: string;
+  name: string;
+  project?: string;
+  dueDate?: string;
+  completed: boolean;
+}
+
 function makeATodoCreate(todo: TodoEntity): TodoCreate {
   return {
+    name: todo.name,
+    project: todo.project,
+    dueDate: todo.dueDate,
+    completed: todo.completed
+  };
+}
+
+function makeATodoUpdate(todo: TodoEntity): TodoUpdate {
+  return {
+    id: todo.id,
     name: todo.name,
     project: todo.project,
     dueDate: todo.dueDate,
