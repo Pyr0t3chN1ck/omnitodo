@@ -64,6 +64,19 @@ export class TodoEffects {
     )
   );
 
+  todoProject$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(todoActions.todoProjectUpdated),
+      map(action => action.payload),
+      switchMap(request => this.client.put<{ value: string }>(this.apiUrl + 'todos/' + request.id + '/project', { value: request.value })
+        .pipe(
+          map(response => todoActions.todoProjectUpdateSuccess()),
+          catchError(err => of(todoActions.todoProjectUpdateFailure({ message: 'Blammo!', payload: request })))
+        )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private client: HttpClient

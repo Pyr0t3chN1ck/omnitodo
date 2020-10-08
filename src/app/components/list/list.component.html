@@ -11,10 +11,28 @@
       <th>Completed</th>
     </thead>
     <tbody>
-      <tr *ngFor="let item of (perspective$ | async)?.items">
+      <tr *ngFor="let item of (perspective$ | async)?.items; let i = index">
         <td>{{ item.name }}</td>
         <td> {{ item.dueDate | dateOr:'No Due Date' }}</td>
-        <td> {{ item.project | stringOr:'No Project' }} </td>
+        <td *ngIf="!enableEdit"
+            (click)="enableProjectEdit(i)"> {{ item.project | stringOr:'No Project' }} </td>
+        <td *ngIf="enableEdit && editRow === i">
+          <div>
+            <form [formGroup]="form">
+              <mat-select formControlName="project">
+                <mat-option value=""></mat-option>
+                <mat-option *ngFor="let project of projects$ | async"
+                            value="{{project.id}}">{{project.name}}</mat-option>
+              </mat-select>
+            </form>
+          </div>
+          <div>
+            <button mat-button
+                    (click)="editTodoProject(item)">Edit</button>
+            <button mat-button
+                    (click)="cancel()">Cancel</button>
+          </div>
+        </td>
         <td>
           <button mat-button
                   *ngIf="!item.completed"

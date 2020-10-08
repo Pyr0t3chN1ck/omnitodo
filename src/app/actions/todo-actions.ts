@@ -3,6 +3,7 @@ import { TodoEntity } from '../reducers/todos.reducer';
 
 let currentId = 1;
 
+// Command
 export const todoCompleted = createAction(
   '[todos] todo completed',
   props<{ payload: TodoEntity }>()
@@ -19,6 +20,7 @@ export const todoCompletedUpdateFailure = createAction(
   props<{ message: string, payload: TodoEntity }>()
 );
 
+// Command
 export const todoIncompleted = createAction(
   '[todos] todo incompleted',
   props<{ payload: TodoEntity }>()
@@ -35,6 +37,22 @@ export const todoIncompletedUpdateFailure = createAction(
   props<{ message: string, payload: TodoEntity }>()
 );
 
+// Command
+export const todoProjectUpdated = createAction(
+  '[todos] todo project updated',
+  props<{ payload: { id: string, value: string, oldValue: string } }>()
+);
+
+// Success
+export const todoProjectUpdateSuccess = createAction(
+  '[todos] todo project updated successfully'
+);
+
+// Failure
+export const todoProjectUpdateFailure = createAction(
+  '[todos] todo project updated failure',
+  props<{ message: string, payload: { id: string, value: string, oldValue: string } }>()
+);
 
 // Command
 export const todoAdded = createAction(
