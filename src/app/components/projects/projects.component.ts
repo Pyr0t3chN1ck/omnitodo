@@ -18,7 +18,6 @@ export class ProjectsComponent implements OnInit {
   ngOnInit(): void {
     this.items$ = this.store.pipe(
       select(selectProjectListWithCount),
-      tap(d => console.log(d))
     );
   }
 

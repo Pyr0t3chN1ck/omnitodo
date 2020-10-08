@@ -35,7 +35,7 @@ const selectAllIncompleteTodoEntities = createSelector(
 );
 
 const selectTodoListItemsUnfiltered = createSelector(
-  selectAllIncompleteTodoEntities,
+  selectAllTodoEntities,
   selectProjectItems,
   (todos, projects) => {
     return todos.map(todo => {
@@ -50,19 +50,19 @@ const selectTodoListItemsUnfiltered = createSelector(
 // Any selectors your components need.
 
 export const selectProjectTodoList = createSelector(
-  selectAllTodoEntities,
+  selectTodoListItemsUnfiltered,
   selectProjectItems,
   (todos, projects, props) => {
     const pName = projects[props.id].name;
     return {
       perspectiveName: pName + ' Project',
-      items: todos.filter(todo => todo.project === props.id)
+      items: todos.filter(todo => todo.project === pName)
     } as PerspectiveModel;
   }
 );
 
 export const selectInboxTodoList = createSelector(
-  selectAllTodoEntities,
+  selectTodoListItemsUnfiltered,
   (todos) => {
     return {
       perspectiveName: 'Your Inbox',
