@@ -3,9 +3,11 @@
     <mat-form-field appearance="fill">
       <mat-label>Enter your Project</mat-label>
       <input matInput
-             formControlName="project" />
+             formControlName="project"
+             (keyup)="checkDuplicateProjects(project.value)" />
       <mat-hint align="end">
         <span *ngIf="project.errors?.required">This is required</span>
+        <span *ngIf="project.errors?.duplicate">This Project currently exists</span>
       </mat-hint>
     </mat-form-field>
   </div>
