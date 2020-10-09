@@ -62,6 +62,18 @@ const reducerFunction = createReducer(
     changes: {
       project: action.payload.oldValue
     }
+  }, oldState)),
+  on(actions.todoDueDateUpdated, (oldState, action) => adapter.updateOne({
+    id: action.payload.id,
+    changes: {
+      dueDate: action.payload.value
+    }
+  }, oldState)),
+  on(actions.todoDueDateUpdateFailure, (oldState, action) => adapter.updateOne({
+    id: action.payload.id,
+    changes: {
+      dueDate: action.payload.oldValue
+    }
   }, oldState))
 );
 

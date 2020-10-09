@@ -77,6 +77,19 @@ export class TodoEffects {
     )
   );
 
+  todoDueDate$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(todoActions.todoDueDateUpdated),
+      map(action => action.payload),
+      switchMap(request => this.client.put<{ value: string }>(this.apiUrl + 'todos/' + request.id + '/duedate', { value: request.value })
+        .pipe(
+          map(response => todoActions.todoDueDateUpdateSuccess()),
+          catchError(err => of(todoActions.todoDueDateUpdateFailure({ message: 'Blammo!', payload: request })))
+        )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private client: HttpClient

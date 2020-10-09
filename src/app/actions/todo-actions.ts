@@ -55,6 +55,29 @@ export const todoProjectUpdateFailure = createAction(
 );
 
 // Command
+export const todoDueDateUpdated = createAction(
+  '[todos] todo due date updated',
+  ({ id, value, oldValue }) => ({
+    payload: {
+      id,
+      oldValue,
+      value: formatDueDate(value)
+    }
+  })
+);
+
+// Success
+export const todoDueDateUpdateSuccess = createAction(
+  '[todos] todo due date updated successfully'
+);
+
+// Failure
+export const todoDueDateUpdateFailure = createAction(
+  '[todos] todo due date updated failure',
+  props<{ message: string, payload: { id: string, value: string, oldValue: string } }>()
+);
+
+// Command
 export const todoAdded = createAction(
   '[todos] todo added',
   ({ name, dueDate, project }: TodoCreate) => ({
@@ -102,4 +125,9 @@ interface TodoCreate {
   name: string;
   dueDate?: string;
   project?: string;
+}
+
+function formatDueDate(dateString: string): string {
+  const dueDate = new Date(dateString);
+  return dueDate.getFullYear() + '-' + (dueDate.getMonth() + 1) + '-' + dueDate.getDate();
 }

@@ -13,24 +13,53 @@
     <tbody>
       <tr *ngFor="let item of (perspective$ | async)?.items; let i = index">
         <td>{{ item.name }}</td>
-        <td> {{ item.dueDate | dateOr:'No Due Date' }}</td>
-        <td *ngIf="!enableEdit"
-            (click)="enableProjectEdit(i)"> {{ item.project | stringOr:'No Project' }} </td>
-        <td *ngIf="enableEdit && editRow === i">
+        <td *ngIf="!enableDueDateEdit || editDueDateRow !== i"
+            (click)="enableDueDateEditing(i)">
+          {{ item.dueDate | dateOr:'No Due Date' }}
+        </td>
+        <td *ngIf="enableDueDateEdit && editDueDateRow === i">
           <div>
             <form [formGroup]="form">
-              <mat-select formControlName="project">
-                <mat-option value=""></mat-option>
-                <mat-option *ngFor="let project of projects$ | async"
-                            value="{{project.id}}">{{project.name}}</mat-option>
-              </mat-select>
+              <mat-form-field class="example-full-width"
+                              appearance="fill">
+                <mat-label>Due Date:</mat-label>
+                <input matInput
+                       type="datetime"
+                       [matDatepicker]="picker"
+                       formControlName="dueDate" />
+                <mat-datepicker-toggle [for]="picker">
+                  <mat-icon matDatepickerToggleIcon>keyboard_down_arrow</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </form>
+          </div>
+          <div>
+            <button mat-button
+                    (click)="editTodoDueDate(item)">Edit</button>
+            <button mat-button
+                    (click)="cancelDueDateEdit()">Cancel</button>
+          </div>
+        </td>
+        <td *ngIf="!enableProjectEdit || editProjectRow !== i"
+            (click)="enableProjectEditing(i)"> {{ item.project | stringOr:'No Project' }} </td>
+        <td *ngIf="enableProjectEdit && editProjectRow === i">
+          <div>
+            <form [formGroup]="form">
+              <mat-form-field>
+                <mat-select formControlName="project">
+                  <mat-option value=""></mat-option>
+                  <mat-option *ngFor="let project of projects$ | async"
+                              value="{{project.id}}">{{project.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
             </form>
           </div>
           <div>
             <button mat-button
                     (click)="editTodoProject(item)">Edit</button>
             <button mat-button
-                    (click)="cancel()">Cancel</button>
+                    (click)="cancelProjectEdit()">Cancel</button>
           </div>
         </td>
         <td>
